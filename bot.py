@@ -50,6 +50,6 @@ class GarrisonBot:
 
 
 if __name__ == '__main__':
-    gr_bot = GarrisonBot('garrison.bot', 'Dooley13')
+    gr_bot = GarrisonBot('temp_user', 'temp_password')
     gr_bot.nav_user('garr.ison')
 
