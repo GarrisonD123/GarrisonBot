@@ -24,6 +24,7 @@ class GarrisonBot:
         self.password = password
         self.base_url = 'https://www.instagram.com/'
         self.driver = webdriver.Chrome('chromedriver.exe')
+        self.pic_num = 0
 
         self.login()
 
@@ -57,17 +58,19 @@ class GarrisonBot:
         are_you_sure_button = self.driver.find_element_by_xpath("//button[contains(text(), 'Unfollow')]")
         are_you_sure_button.click()
 
-    def get_num_pics(self,user):
+    def get_num_pics(self,user = 'garrison.bot'):
         self.nav_user(user)
-        pic_num_element = self.driver.find_element_by_class_name("g47SY ")
-        pic_num = int(pic_num_element.text)
-        return pic_num
+        pic_num_element = self.driver.find_element_by_class_name("g47SY")
+        self.pic_num = int(pic_num_element.text)
+
 
     def select_picture(self,user, num = 0):
         self.nav_user(user)
+        self.get_num_pics(user)
         sleep(2)
         pictures_list = self.driver.find_elements_by_class_name('_9AhH0')
         #if num < self.get_num_pics('garr.ison'): TODO fix this if statement
+        print(self.pic_num)
         picture = pictures_list[num]
         picture.click()
 
@@ -79,12 +82,43 @@ class GarrisonBot:
         like_button = self.driver.find_element_by_css_selector("[aria-label = Like]")
         like_button.click()
 
+    def like_all_pictures(self,user):
+        self.nav_user(user)
+        self.select_picture(user)
+        sleep(2)
+        for x in range(0,self.pic_num-1):
+            sleep(10)
+            like_button = self.driver.find_element_by_css_selector("[aria-label = Like]")
+            like_button.click()
+            next_button = self.driver.find_element_by_link_text("Next")
+            next_button.click()
+        sleep(2)
+        like_button = self.driver.find_element_by_css_selector("[aria-label = Like]")
+        like_button.click()
+
+    def follow_for_follow(self):
+        self.nav_user(self.username)
+        sleep(2)
+        followers_button = self.driver.find_element_by_xpath("//a[contains(@href, '/"+self.username+"/followers/')]")
+        followers_button.click()
+        sleep(2)
+        not_following_list = self.driver.find_elements_by_xpath("//button[contains(text(), 'Follow')]")
+        for x in range(0,self.pic_num):
+            if not_following_list[x].text == 'Follow':
+                not_following_list[x].click()
+
+
+
+
 
 
 if __name__ == '__main__':
     gr_bot = GarrisonBot('garrison.bot', 'Dooley13')
-    gr_bot.follow_user('saraafitzz')
-    gr_bot.like_picture('garr.ison',1)
+    #gr_bot.nav_user('Garrison.bot')
+    #gr_bot.follow_user('saraafitzz')
+    gr_bot.get_num_pics("garr.ison")
+    #gr_bot.like_all_pictures('saraafitzz')
+    gr_bot.follow_for_follow()
 
 
 
