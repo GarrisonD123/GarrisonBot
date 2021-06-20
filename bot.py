@@ -113,11 +113,8 @@ class GarrisonBot:
 
 
 if __name__ == '__main__':
-    gr_bot = GarrisonBot('garrison.bot', 'Dooley13')
-    #gr_bot.nav_user('Garrison.bot')
-    #gr_bot.follow_user('saraafitzz')
+    gr_bot = GarrisonBot('garrison.bot', 'PASSWORD')
     gr_bot.get_num_pics("garr.ison")
-    #gr_bot.like_all_pictures('saraafitzz')
     gr_bot.follow_for_follow()
 
 
