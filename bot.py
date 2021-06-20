@@ -114,7 +114,6 @@ class GarrisonBot:
 
 if __name__ == '__main__':
     gr_bot = GarrisonBot('garrison.bot', 'PASSWORD')
-    gr_bot.get_num_pics("garr.ison")
     gr_bot.follow_for_follow()
 
 
